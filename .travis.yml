@@ -1,0 +1,4 @@
+language: python
+services: postgresql
+before_script: psql -c 'create database "Personal Movie Database";' -U postgres
+script: python personal_movie_database/manage.py test
