@@ -1,0 +1,129 @@
+from decouple import config
+import requests
+import json
+from pprint import pprint
+
+
+class TMDBInterface:
+
+    def __init__(self):
+
+        """
+        url_v4 : Url that uses API V4
+        url_v3 : Url that uses API V3
+        bearer_key : Bearer authorization for payload
+        image_url : Url needed to retrieve images
+
+        """
+        self.url_v4 = "https://api.themoviedb.org/4"
+        self.url_v3 = "https://api.themoviedb.org/3"
+        self.bearer_key = "Bearer {}".format(config('tmdb_apiv4_key'))
+        self.content_type = "application/json;charset=utf-8"
+        self.header_payload = {"Authorization": self.bearer_key, "content-type": self.content_type}
+        response = requests.get(self.url_v3+"/configuration", headers=self.header_payload)
+        response_json = json.loads(response.text)
+        self.image_url = response_json["images"]["base_url"]
+
+    def _search(self, search_url: str = None, query: str = None, **kwargs) -> json:
+
+        """
+        Returns search results for the given search url
+        Note: Not meant to be used outside the class
+        """
+
+        payload = {"query": query}
+        for key, value in kwargs.items():
+            payload[str(key)] = value
+        response = requests.get(search_url, params=payload, headers=self.header_payload)
+        response_json = json.loads(response.text)
+        return response_json
+
+    def search_movie(self, query: str = None, **kwargs) -> json:
+        """
+        Search movies
+        :param query: Search query for movie
+        :param kwargs:{
+                language: str,
+                page: int,
+                include_adult: bool,
+                region: str,
+                year: int,
+                primary_release_year: int
+        :return: json from _search
+        """
+        search_url = "{}/search/movie".format(self.url_v4)
+        return self._search(search_url, query, **kwargs)
+
+    def search_tv(self, query: str = None, **kwargs) -> json:
+        """
+        Search tv
+        :param query: Search query for tv shows
+        :param kwargs:{
+                language: str,
+                page: int,
+                first_air_date_year: int,}
+        :return: json from _search
+        """
+        search_url = "{}/search/tv".format(self.url_v4)
+        return self._search(search_url, query, **kwargs)
+
+    def search_people(self, query: str = None, **kwargs) -> json:
+        """
+        Search people
+        :param query: Search query for people
+        :param kwargs:{
+                language: str,
+                page: int,
+                include_adult: bool,
+                region: str,}
+        :return: json from _search
+        """
+        search_url = "{}/search/person".format(self.url_v4)
+        return self._search(search_url, query, **kwargs)
+
+    def search_multi(self, query: str = None, **kwargs) -> json:
+        """
+        Search everything
+        :param query: Keyword search
+        :param kwargs:{
+                language: str,
+                page: int,
+                include_adult: bool,
+                region: str,}
+        :return: json from _search
+        """
+        search_url = "{}/search/multi".format(self.url_v4)
+        return self._search(search_url, query, **kwargs)
+
+    def search_company(self, query: str = None, **kwargs) -> json:
+        """
+        Search Company
+        :param query: Search query for people
+        :param kwargs:{
+                page: int,}
+        :return: json from _search
+        """
+        search_url = "{}/search/company".format(self.url_v3)
+        return self._search(search_url, query, **kwargs)
+
+    def search_collection(self, query: str = None, **kwargs) -> json:
+        """
+        Search Collection
+        :param query: Collection search
+        :param kwargs:{
+                page: int,}
+        :return: json from _search
+        """
+        search_url = "{}/search/collection".format(self.url_v3)
+        return self._search(search_url, query, **kwargs)
+
+    def search_keyword(self, query: str = None, **kwargs) -> json:
+        """
+        Keyword search
+        :param query: Keyword to be searched
+        :param kwargs:{
+                page: int,}
+        :return: json from _search
+        """
+        search_url = "{}/search/keyword".format(self.url_v3)
+        return self._search(search_url, query, **kwargs)
