@@ -1,12 +1,13 @@
-language: python
-services: postgresql
+before_install: "export DJANGO_SETTINGS_MODULE=personal_movie_database.settings"
+before_script: "psql -c 'create database \"Personal Movie Database\";' -U postgres"
 env:
-  global:
+  global: 
     secure: BKc306GFgIWFAbfeC37U771NB4XbocZtB5In/ygnf3JA+FMXaEtclmWS0dM7MScNaQx3REMI/JncCqMlYYby8xlCfxTKblNWT9591cPp2VlMn5Qm6DW3X6Bde2MCDecYz36mAoRHYj65CR6gsbqC47OWftBl5b+Yl0upzSgJKU71jP3Rrxh2gQSpgw2bAeVX5hC+LDy//R26gWtBts3+4lF2BYMAIiGssoQLm2f2sTutFOH+TPmeg1OJ+ACm6LfrcjU7ZPOu5dMl8Ywzs1OjXhxmDjoJ7/RpJ0A4PZxFu3LPhcGkLdrhyreNRGH9E0R6PwiPWuAMCHpQYjsZ+ztxK+oXxE3JSqvx80TzXp9Yqq4pVoHbLSMCn0ky+lKTpwLfWVSxidzd5jNqDFUJId6CLdQ0BqTKOzsyKB9SgNpkNi52W78Tuslog/RRdKMqA8pGzS9+jWSEcL5BOD/cZnL//RcQKxhJ0pbMxWC3ZismEvBH1WiQfKL6PQTPOireoHewAR1ztLUIvVmDbKUbnI3TfCXC3QB2jCt7drQxtdolDjWMt9spnw/xsSZHrh2F5BR2ASg7+Cbluc9LRxLd/K9Xx9wb8NgbjDiEdy6W7wXe1THrVTfBxRF+CMQ0WqFzrXoTfLtnzYSXUMP4U71HILX0tNZkq1KQhtHi2Ww+qJQ+9fA=
-  -  DJANGO=2.2.6
-before_install: export DJANGO_SETTINGS_MODULE=your_project.settings
-install:
-  - pip install -r requirements.txt
-  - pip install django==$DJANGO --quiet
-before_script: psql -c 'create database "Personal Movie Database";' -U postgres
-script: python personal_movie_database/manage.py test
+  matrix: 
+    - DJANGO=2.2.6
+install: 
+  - "pip install -r requirements.txt"
+  - "pip install django==$DJANGO --quiet"
+language: python
+script: "python personal_movie_database/manage.py test"
+services: postgresql
