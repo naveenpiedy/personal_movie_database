@@ -1,6 +1,7 @@
 before_install: "export DJANGO_SETTINGS_MODULE=personal_movie_database.settings"
 before_script:
   - "psql -c 'create database \"Personal Movie Database\";' -U postgres"
+  - "psql -c \"CREATE USER navbu WITH PASSWORD 'root';\" -U postgres"
   - cd personal_movie_database
 env:
   global:
