@@ -1,7 +1,6 @@
 from decouple import config
 import requests
 import json
-from pprint import pprint
 
 
 class TMDBInterface:
@@ -127,3 +126,48 @@ class TMDBInterface:
         """
         search_url = "{}/search/keyword".format(self.url_v3)
         return self._search(search_url, query, **kwargs)
+
+
+class IMDBInterface:
+
+    def __init__(self):
+        self.url = "https://movie-database-imdb-alternative.p.rapidapi.com/"
+        self.headers = {
+            'x-rapidapi-host': "movie-database-imdb-alternative.p.rapidapi.com",
+            'x-rapidapi-key': config("x-rapidapi-key")
+        }
+
+    def search_movie(self, query: str, **kwargs) -> json:
+        """
+        Search IMDB for movies by title
+        :param query: Movie title
+        :param kwargs: {
+                page:int,
+                type: str ['movie', 'series', 'episode'],
+                y: int (year)}
+        :return: json
+        """
+        payload = {"s": query, "r": "json"}
+        for key, value in kwargs.items():
+            payload[str(key)] = value
+        response = requests.get(self.url, params=payload, headers=self.headers)
+        response_json = json.loads(response.text)
+        return response_json
+
+    def get_movie_id(self, query: str, **kwargs) -> json:
+        """
+        Get from IMDB by ID
+        :param query: ID
+        :param kwargs: {
+                page:int,
+                type: str ['movie', 'series', 'episode'],
+                plot: str ['short', 'full']
+                y: int (year)}
+        :return: json
+        """
+        payload = {"i": query, "r": "json"}
+        for key, value in kwargs.items():
+            payload[str(key)] = value
+        response = requests.get(self.url, params=payload, headers=self.headers)
+        response_json = json.loads(response.text)
+        return response_json

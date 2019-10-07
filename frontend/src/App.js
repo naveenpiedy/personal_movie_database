@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 import { CustomNavbar } from './customnavbar.js';
+import { SearchInternet } from './searchInternet.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class App extends React.Component {
         tag_to_call = <p>Home</p>;
         break;
       case "search_internet":
-        tag_to_call = <p>Searching Internet</p>
+        tag_to_call = <SearchInternet />
         break;
       case "search_local":
         tag_to_call = <p>Searching Local</p>
