@@ -10,8 +10,7 @@ import {
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem,
-    Button
+    DropdownItem
 } from 'reactstrap';
 
 export class CustomNavbar extends React.Component {
@@ -36,7 +35,7 @@ export class CustomNavbar extends React.Component {
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <NavLink onClick={this.props.movieSearch}>Search TMDB</NavLink>
+                                <NavLink onClick={this.props.movieSearch}>Search Internet</NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink onClick={this.props.localSearch}>Search Local</NavLink>

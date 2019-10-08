@@ -1,17 +1,18 @@
-before_install: "export DJANGO_SETTINGS_MODULE=personal_movie_database.settings"
+before_install: export DJANGO_SETTINGS_MODULE=personal_movie_database.settings
 before_script:
-  - "psql -c 'create database \"Personal Movie Database\";' -U postgres"
-  - "psql -c \"CREATE USER navbu WITH PASSWORD 'root';\" -U postgres"
-  - "psql -c \"ALTER USER navbu CREATEDB;\" -U postgres"
-  - cd personal_movie_database
+- psql -c 'create database "Personal Movie Database";' -U postgres
+- psql -c "CREATE USER navbu WITH PASSWORD 'root';" -U postgres
+- psql -c "ALTER USER navbu CREATEDB;" -U postgres
+- cd personal_movie_database
 env:
   global:
-    secure: BKc306GFgIWFAbfeC37U771NB4XbocZtB5In/ygnf3JA+FMXaEtclmWS0dM7MScNaQx3REMI/JncCqMlYYby8xlCfxTKblNWT9591cPp2VlMn5Qm6DW3X6Bde2MCDecYz36mAoRHYj65CR6gsbqC47OWftBl5b+Yl0upzSgJKU71jP3Rrxh2gQSpgw2bAeVX5hC+LDy//R26gWtBts3+4lF2BYMAIiGssoQLm2f2sTutFOH+TPmeg1OJ+ACm6LfrcjU7ZPOu5dMl8Ywzs1OjXhxmDjoJ7/RpJ0A4PZxFu3LPhcGkLdrhyreNRGH9E0R6PwiPWuAMCHpQYjsZ+ztxK+oXxE3JSqvx80TzXp9Yqq4pVoHbLSMCn0ky+lKTpwLfWVSxidzd5jNqDFUJId6CLdQ0BqTKOzsyKB9SgNpkNi52W78Tuslog/RRdKMqA8pGzS9+jWSEcL5BOD/cZnL//RcQKxhJ0pbMxWC3ZismEvBH1WiQfKL6PQTPOireoHewAR1ztLUIvVmDbKUbnI3TfCXC3QB2jCt7drQxtdolDjWMt9spnw/xsSZHrh2F5BR2ASg7+Cbluc9LRxLd/K9Xx9wb8NgbjDiEdy6W7wXe1THrVTfBxRF+CMQ0WqFzrXoTfLtnzYSXUMP4U71HILX0tNZkq1KQhtHi2Ww+qJQ+9fA=
+  - secure: BKc306GFgIWFAbfeC37U771NB4XbocZtB5In/ygnf3JA+FMXaEtclmWS0dM7MScNaQx3REMI/JncCqMlYYby8xlCfxTKblNWT9591cPp2VlMn5Qm6DW3X6Bde2MCDecYz36mAoRHYj65CR6gsbqC47OWftBl5b+Yl0upzSgJKU71jP3Rrxh2gQSpgw2bAeVX5hC+LDy//R26gWtBts3+4lF2BYMAIiGssoQLm2f2sTutFOH+TPmeg1OJ+ACm6LfrcjU7ZPOu5dMl8Ywzs1OjXhxmDjoJ7/RpJ0A4PZxFu3LPhcGkLdrhyreNRGH9E0R6PwiPWuAMCHpQYjsZ+ztxK+oXxE3JSqvx80TzXp9Yqq4pVoHbLSMCn0ky+lKTpwLfWVSxidzd5jNqDFUJId6CLdQ0BqTKOzsyKB9SgNpkNi52W78Tuslog/RRdKMqA8pGzS9+jWSEcL5BOD/cZnL//RcQKxhJ0pbMxWC3ZismEvBH1WiQfKL6PQTPOireoHewAR1ztLUIvVmDbKUbnI3TfCXC3QB2jCt7drQxtdolDjWMt9spnw/xsSZHrh2F5BR2ASg7+Cbluc9LRxLd/K9Xx9wb8NgbjDiEdy6W7wXe1THrVTfBxRF+CMQ0WqFzrXoTfLtnzYSXUMP4U71HILX0tNZkq1KQhtHi2Ww+qJQ+9fA=
+  - secure: qEIDJAzsk+ADJ4y/6sbvtMoMzGwNVDN2kIC0i5AxMkAhFbhphA4pL7c1ZDp/dRqYbNEmEV9Qdxqe6/TVR7InS9h82X00+HkyWCFwsFNW9hAihx8zqpNnce2VmPUMcyQYX6vHblpCBIY3JFruMIXGwfSJ8Lj5NhGkzKMc76M+nMksjSNxtjzNVOpjsPDy/wZZjnSj2CLgJLacz3C+jQz/oi6QyMZLju5zAVgP8/IJvhnFpRMlMQaIN+Khwvku/ow8KqPuaUW6nkNyGHmXzLsPHpOtZ8ExvJab4DSLue5e+tjnxQkrUljZsuevosHD7sqkP4iEvcyVKaxhwIccJ28VzkjxD0M/SSKdEa/YVw9mB3G/CIDFeEsGxirWy6VYjh7YReHFSFt83GM9dgniTGIOUvx7y/pzNciPn6i8Hdup2VwBFRUdrxsSM44VXqpL8Uf1XaqjgD5+YRONPVsEvWuvbN6MPzVhEQ/U22BE955cgxGji3pMAqyGCf6a9kY9Sz/HqHQdmi6kMYpN8A/Zab45GbL+3Ae1PxgzKmjEFZo+NTd7hC0uG2bpuebAX4W8JFozBeQmOjbE2DUVs5YshqAiqP1GoK4kdZxiw24zin0cs25YqPsCaujwlZ2zfSb9Tw51g76oQ57kmlEza4xp6PlEGcQoI6Wt3dHh5bPbUINNEgs=
   matrix:
-    - DJANGO=2.2.6 DJANGO_SETTINGS_MODULE="personal_movie_database.settings"
+  - DJANGO=2.2.6 DJANGO_SETTINGS_MODULE="personal_movie_database.settings"
 install:
-  - pip install -q Django==$DJANGO
-  - pip install -q -r requirements.txt
+- pip install -q Django==$DJANGO
+- pip install -q -r requirements.txt
 language: python
 script: python manage.py test
 services: postgresql
