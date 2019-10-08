@@ -134,7 +134,7 @@ class IMDBInterface:
         self.url = "https://movie-database-imdb-alternative.p.rapidapi.com/"
         self.headers = {
             'x-rapidapi-host': "movie-database-imdb-alternative.p.rapidapi.com",
-            'x-rapidapi-key': config("x-rapidapi-key")
+            'x-rapidapi-key': config("x_rapidapi_key")
         }
 
     def search_movie(self, query: str, **kwargs) -> json:
