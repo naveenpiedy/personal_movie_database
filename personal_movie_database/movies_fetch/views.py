@@ -1,6 +1,12 @@
-from decouple import config
-import requests
 import json
+
+import requests
+from decouple import config
+from rest_framework import views, viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from . import serializers
 
 
 class TMDBInterface:
@@ -171,3 +177,12 @@ class IMDBInterface:
         response = requests.get(self.url, params=payload, headers=self.headers)
         response_json = json.loads(response.text)
         return response_json
+
+
+class GetMoviesView(viewsets.ViewSet):
+
+    def list(self, request):
+        query_params = request.query_params
+        tmdb_obj = TMDBInterface()
+        results = tmdb_obj.search_movie(query_params['movie_name'])
+        return Response(data=results)
