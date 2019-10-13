@@ -142,6 +142,12 @@ class TMDBInterface:
         response_json = json.loads(response.text)
         return response_json
 
+    def get_genre(self):
+        get_url = f"{self.url_v3}/movie/list?&language=en-US"
+        response = requests.get(get_url, headers=self.header_payload)
+        response_json = json.loads(response.text)
+        return response_json
+
 
 class IMDBInterface:
 
