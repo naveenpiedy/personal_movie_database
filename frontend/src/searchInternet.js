@@ -26,6 +26,12 @@ const Styled_IG = styled(InputGroup)`
 box-shadow: 0 10px 15px -3px rgba(135,206,250, 0.3), 0 4px 6px -2px rgba(255, 255, 255, .05);
 `;
 
+function values_unpacker(values_list){
+
+    return values_list.join(", ");
+
+}
+
 export class SearchInternet extends React.Component {
 
     constructor(props) {
@@ -65,6 +71,8 @@ export class SearchInternet extends React.Component {
                                         <br />
                                         <CardText className="h5">Overview: {item["overview"]}</CardText>
                                         <br />
+                                        <CardText>Genre: {values_unpacker(item["genre_ids"])}</CardText>
+                                        <br />
                                         <CardText>Release Date: {item["release_date"]}</CardText>
                                         <br />
                                         <CardText>Vote Average: {item["vote_average"]}</CardText>
@@ -89,8 +97,8 @@ export class SearchInternet extends React.Component {
                             <Styled_Input id="keyword" placeholder="Enter keyword" type="text" value={this.state.value} onChange={this.handleChange} />
                         </Styled_IG>
                         <div className="text-center mt-4">
-                            <Search_Buttons id="search_other" onClick={this.getmovie}>Search Other</Search_Buttons>
-                            <Search_Buttons id="search_movies">Search Movie</Search_Buttons>
+                            <Search_Buttons id="search_other">Search Other</Search_Buttons>
+                            <Search_Buttons id="search_movies" onClick={this.getmovie}>Search Movie</Search_Buttons>
                             <Search_Buttons id="search_people">Search People</Search_Buttons>
                         </div>
                     </div>

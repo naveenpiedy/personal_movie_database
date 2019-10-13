@@ -2,11 +2,10 @@ import json
 
 import requests
 from decouple import config
-from rest_framework import views, viewsets
-from rest_framework.decorators import api_view
+from rest_framework import viewsets
 from rest_framework.response import Response
 
-from . import serializers
+from .models import GenreList
 
 
 class TMDBInterface:
@@ -200,6 +199,12 @@ class SearchMoviesView(viewsets.ViewSet):
         query_params = request.query_params
         tmdb_obj = TMDBInterface()
         results = tmdb_obj.search_movie(query_params['movie_name'])
+        query_set = GenreList.objects.all()
+        for i in results["results"]:
+            genre_to_replace = i["genre_ids"]
+            genre_to_replace = [query_set.filter(tmdb_id=name).values("genre_string")[0]["genre_string"]
+                                for name in genre_to_replace]
+            i["genre_ids"] = genre_to_replace
         return Response(data=results)
 
 
