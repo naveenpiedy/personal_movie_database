@@ -133,6 +133,15 @@ class TMDBInterface:
         search_url = "{}/search/keyword".format(self.url_v3)
         return self._search(search_url, query, **kwargs)
 
+    def get_movie(self, tmdb_id: int) -> json:
+
+        # To get a specific movie by id
+
+        get_url = f"{self.url_v3}/movie/{tmdb_id}?&language=en-US"
+        response = requests.get(get_url, headers=self.header_payload)
+        response_json = json.loads(response.text)
+        return response_json
+
 
 class IMDBInterface:
 
@@ -179,10 +188,27 @@ class IMDBInterface:
         return response_json
 
 
-class GetMoviesView(viewsets.ViewSet):
+class SearchMoviesView(viewsets.ViewSet):
 
     def list(self, request):
         query_params = request.query_params
         tmdb_obj = TMDBInterface()
         results = tmdb_obj.search_movie(query_params['movie_name'])
         return Response(data=results)
+
+
+class GetMoviesView(viewsets.ViewSet):
+
+    def list(self, request):
+        query_params = request.query_params
+        tmdb_obj = TMDBInterface()
+        imdb_obj = IMDBInterface()
+        tmdb_result = tmdb_obj.get_movie(query_params['tmdb_id'])
+        outgoing_json = None
+        if tmdb_result:
+            outgoing_json = {"tmdb_result": tmdb_result}
+            if tmdb_result.get("imdb_id"):
+                imdb_id = tmdb_result.get("imdb_id")
+                imdb_results = imdb_obj.get_movie_id(imdb_id)
+                outgoing_json["imdb_results"] = imdb_results
+        return Response(data=outgoing_json)
