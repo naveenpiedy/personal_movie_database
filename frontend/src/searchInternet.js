@@ -40,7 +40,7 @@ export class SearchInternet extends React.Component {
     }
 
     getmovie() {
-        axios.get("/movies/?movie_name=\"" + this.state.value + "\"&format=json").then(response => {
+        axios.get("/movies/search_internet/?movie_name=\"" + this.state.value + "\"&format=json").then(response => {
             this.setState({ result: response.data['results'], expansion: 'Search' });
         })
             .catch(function (error) {
