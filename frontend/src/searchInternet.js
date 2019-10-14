@@ -21,6 +21,14 @@ outline: 0;
 border-bottom: 5px solid skyblue;
 `;
 
+const Roboto_Card = styled(CardText)`
+font-family:'Roboto', sans-serif;
+`;
+
+const Raleway_Card = styled(CardText)`
+font-family: font-family: 'Raleway', sans-serif;
+`;
+
 
 const Styled_IG = styled(InputGroup)`
 box-shadow: 0 10px 15px -3px rgba(135,206,250, 0.3), 0 4px 6px -2px rgba(255, 255, 255, .05);
@@ -30,6 +38,11 @@ function values_unpacker(values_list){
 
     return values_list.join(", ");
 
+}
+
+function get_year(date){
+    
+    return date.substring(0, 4)
 }
 
 export class SearchInternet extends React.Component {
@@ -67,17 +80,14 @@ export class SearchInternet extends React.Component {
                                         <img src={"https://image.tmdb.org/t/p/w780/" + item["poster_path"]} class="img-thumbnail img-fluid" />
                                     </Col>
                                     <Col md={{ size: 8 }}>
-                                        <CardTitle className="display-4">{item["title"]}</CardTitle>
+                                        <CardTitle className="display-4">{item["title"]} ({get_year(item["release_date"])})</CardTitle>
                                         <br />
-                                        <CardText className="h5">Overview: {item["overview"]}</CardText>
+                                        <Roboto_Card className="h4"><small><i>Overview: </i>{item["overview"]}</small></Roboto_Card>
                                         <br />
-                                        <CardText>Genre: {values_unpacker(item["genre_ids"])}</CardText>
-                                        <br />
-                                        <CardText>Release Date: {item["release_date"]}</CardText>
-                                        <br />
-                                        <CardText>Vote Average: {item["vote_average"]}</CardText>
-                                        <br />
-                                        <CardText>Vote Count: {item["vote_count"]}</CardText>
+                                        <Raleway_Card><i>Genre:</i> {values_unpacker(item["genre_ids"])}</Raleway_Card>
+                                        <Raleway_Card><i>Release Date:</i> {item["release_date"]}</Raleway_Card>
+                                        <Raleway_Card><i>Vote Average:</i> {item["vote_average"]}</Raleway_Card>
+                                        <Raleway_Card><i>Vote Count:</i> {item["vote_count"]}</Raleway_Card>
                                     </Col>
                                 </Row>
 
