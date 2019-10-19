@@ -51,8 +51,9 @@ export class SearchInternet extends React.Component {
     constructor(props) {
         super(props);
         this.getmovie = this.getmovie.bind(this);
-        this.state = { value: '', result: '', expansion: 'Search', show: false };
+        this.state = { value: '', result: '', expansion: 'Search', show: false, showMovie:-1 };
         this.handleChange = this.handleChange.bind(this);
+        this.showModal = this.showModal.bind(this);
     }
 
     handleChange(event) {
@@ -69,10 +70,13 @@ export class SearchInternet extends React.Component {
         console.log(this.state.result)
     }
 
-    showModal = () => {
+    showModal(event) {
+        const id = event.target.id;
+        console.log(id);
         this.setState({
             ...this.state,
-            show: !this.state.show
+            show: !this.state.show,
+            showMovie: id
         });
     }
 
@@ -96,7 +100,7 @@ export class SearchInternet extends React.Component {
                                         <Raleway_Card><i>Release Date:</i> {item["release_date"]}</Raleway_Card>
                                         <Raleway_Card><i>Vote Average:</i> {item["vote_average"]}</Raleway_Card>
                                         <Raleway_Card><i>Vote Count:</i> {item["vote_count"]}</Raleway_Card>
-                                        <Button onClick={this.showModal}> Show more details</Button>
+                                        <Button onClick={this.showModal} id={item["id"]}> Show more details</Button>
                                     </Col>
                                 </Row>
 
@@ -123,7 +127,7 @@ export class SearchInternet extends React.Component {
                     </div>
                 </Col>
                 </Row>
-                <MovieDetails show={this.state.show}/>
+                <MovieDetails show={this.state.show} movie={this.state.showMovie} onClose={this.showModal}/>
                 <Row><Col md={{ size: 6, offset: 3 }}>
                     {list_items}
                 </Col>
