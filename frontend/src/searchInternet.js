@@ -8,6 +8,7 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle
 } from 'reactstrap';
+import { MovieDetails } from './moviedetails'
 
 const Search_Buttons = styled(Button)`
 margin: 10px;
@@ -34,14 +35,14 @@ const Styled_IG = styled(InputGroup)`
 box-shadow: 0 10px 15px -3px rgba(135,206,250, 0.3), 0 4px 6px -2px rgba(255, 255, 255, .05);
 `;
 
-function values_unpacker(values_list){
+function values_unpacker(values_list) {
 
     return values_list.join(", ");
 
 }
 
-function get_year(date){
-    
+function get_year(date) {
+
     return date.substring(0, 4)
 }
 
@@ -50,8 +51,9 @@ export class SearchInternet extends React.Component {
     constructor(props) {
         super(props);
         this.getmovie = this.getmovie.bind(this);
-        this.state = { value: '', result: '', expansion: 'Search' };
+        this.state = { value: '', result: '', expansion: 'Search', show: false, showMovie:-1 };
         this.handleChange = this.handleChange.bind(this);
+        this.showModal = this.showModal.bind(this);
     }
 
     handleChange(event) {
@@ -66,6 +68,16 @@ export class SearchInternet extends React.Component {
                 console.log(error);
             });
         console.log(this.state.result)
+    }
+
+    showModal(event) {
+        const id = event.target.id;
+        console.log(id);
+        this.setState({
+            ...this.state,
+            show: !this.state.show,
+            showMovie: id
+        });
     }
 
     render() {
@@ -88,6 +100,7 @@ export class SearchInternet extends React.Component {
                                         <Raleway_Card><i>Release Date:</i> {item["release_date"]}</Raleway_Card>
                                         <Raleway_Card><i>Vote Average:</i> {item["vote_average"]}</Raleway_Card>
                                         <Raleway_Card><i>Vote Count:</i> {item["vote_count"]}</Raleway_Card>
+                                        <Button onClick={this.showModal} id={item["id"]}> Show more details</Button>
                                     </Col>
                                 </Row>
 
@@ -114,6 +127,7 @@ export class SearchInternet extends React.Component {
                     </div>
                 </Col>
                 </Row>
+                <MovieDetails show={this.state.show} movie={this.state.showMovie} onClose={this.showModal}/>
                 <Row><Col md={{ size: 6, offset: 3 }}>
                     {list_items}
                 </Col>
